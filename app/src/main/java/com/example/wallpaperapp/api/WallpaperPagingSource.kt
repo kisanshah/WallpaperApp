@@ -8,7 +8,11 @@ import java.io.IOException
 
 private const val START_INDEX = 1
 
-class WallpaperPagingSource(private val apiInterface: ApiInterface, private val query: String) :
+class WallpaperPagingSource(
+    private val apiInterface: ApiInterface,
+    private val query: String,
+    private val ratio: String
+) :
     PagingSource<Int, WallPaper>() {
 
 
@@ -16,7 +20,7 @@ class WallpaperPagingSource(private val apiInterface: ApiInterface, private val 
         val position = params.key ?: START_INDEX
 
         return try {
-            val response = apiInterface.getWallpaperByQuery(position, query)
+            val response = apiInterface.getWallpaperByQuery(position, query, ratio)
             val wallPaper = response.data
             LoadResult.Page(
                 data = wallPaper,

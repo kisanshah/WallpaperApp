@@ -1,34 +1,45 @@
 package com.example.wallpaperapp.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.wallpaperapp.R
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.wallpaperapp.databinding.WallpaperBinding
 import com.example.wallpaperapp.model.WallPaper
 
-class WallpaperAdapter(private val context: Context) :
+class WallpaperAdapter() :
     PagingDataAdapter<WallPaper, WallpaperAdapter.WallpaperHolder>(COMPARE) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpaperHolder {
-        var view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.wallpaper, parent, false)
-        return WallpaperHolder(view)
+        val binding = WallpaperBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return WallpaperHolder(binding)
     }
 
     override fun onBindViewHolder(holder: WallpaperHolder, position: Int) {
         val currentItem = getItem(position)
-        Glide.with(context).load(currentItem?.path).centerCrop().into(holder.wallpaper)
-
+        if (currentItem != null) {
+            holder.bind(currentItem)
+        }
     }
 
-    class WallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var wallpaper: ImageView = itemView.findViewById(R.id.wallpaper)
+    class WallpaperHolder(private var binding: WallpaperBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(wallPaper: WallPaper) {
+            binding.apply {
+                Glide.with(itemView)
+                    .load(wallPaper.path)
+                    .centerCrop()
+                    .into(imageView)
+            }
+        }
     }
 
 

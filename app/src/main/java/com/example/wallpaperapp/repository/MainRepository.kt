@@ -33,14 +33,14 @@ class MainRepository(application: Application) {
         return liveDataWallpaper
     }
 
-    fun getWallpaperByQuery(query: String): LiveData<PagingData<WallPaper>> {
+    fun getWallpaperByQuery(query: String,ratio: String): LiveData<PagingData<WallPaper>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 24,
                 maxSize = 100,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { WallpaperPagingSource(apiInterface, query) }
+            pagingSourceFactory = { WallpaperPagingSource(apiInterface, query,ratio) }
         ).liveData
     }
 

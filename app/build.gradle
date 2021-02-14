@@ -7,7 +7,6 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
-
     defaultConfig {
         applicationId "com.example.wallpaperapp"
         minSdkVersion 21
@@ -31,9 +30,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+
     def paging_version = "3.0.0-beta01"
 
     implementation "androidx.paging:paging-runtime:$paging_version"
