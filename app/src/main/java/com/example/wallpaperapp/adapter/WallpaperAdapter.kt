@@ -1,16 +1,17 @@
 package com.example.wallpaperapp.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.wallpaperapp.databinding.WallpaperBinding
 import com.example.wallpaperapp.model.WallPaper
 
-class WallpaperAdapter() :
+class WallpaperAdapter(val listener: AdapterOnClickListener) :
     PagingDataAdapter<WallPaper, WallpaperAdapter.WallpaperHolder>(COMPARE) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpaperHolder {
@@ -27,21 +28,50 @@ class WallpaperAdapter() :
         if (currentItem != null) {
             holder.bind(currentItem)
         }
+
     }
 
-    class WallpaperHolder(private var binding: WallpaperBinding) :
+    inner class WallpaperHolder(private val binding: WallpaperBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    if (item != null) {
+                        listener.onItemClick(item)
+                    }
+                }
+            }
+
+            binding.fav.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    if (item != null) {
+                        listener.onFavClick(item)
+                    }
+                }
+            }
+
+        }
 
         fun bind(wallPaper: WallPaper) {
+
             binding.apply {
                 Glide.with(itemView)
                     .load(wallPaper.path)
                     .centerCrop()
                     .into(imageView)
+                container.setBackgroundColor(Color.parseColor(wallPaper.colors[0]))
             }
         }
     }
 
+    interface AdapterOnClickListener {
+        fun onItemClick(wallPaper: WallPaper)
+        fun onFavClick(wallPaper: WallPaper)
+    }
 
     companion object {
         private val COMPARE = object : DiffUtil.ItemCallback<WallPaper>() {

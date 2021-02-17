@@ -20,6 +20,7 @@ interface ApiInterface {
     suspend fun getWallpaperByQuery(
         @Query("page") page: Int,
         @Query("q") query: String,
-        @Query("ratios") ratio: String
+        @Query("ratios") ratio: String,
+        @Query("sorting") sorting: String
     ): WallpaperResponse
 }

@@ -1,31 +1,40 @@
 package com.example.wallpaperapp.views.fragments
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
+import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.wallpaperapp.R
 import com.example.wallpaperapp.adapter.LoaderAdapter
 import com.example.wallpaperapp.adapter.WallpaperAdapter
 import com.example.wallpaperapp.databinding.HomeFragmentBinding
+import com.example.wallpaperapp.model.WallPaper
 import com.example.wallpaperapp.viewmodel.MainViewModel
 
-class HomeFragment : Fragment(R.layout.home_fragment) {
+class HomeFragment : BaseFragment(), WallpaperAdapter.AdapterOnClickListener {
     private val viewModel by viewModels<MainViewModel>()
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.home_fragment, container, false)
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = HomeFragmentBinding.bind(view)
 
-        val adapter = WallpaperAdapter()
+        val adapter = WallpaperAdapter(this)
         binding.apply {
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
@@ -48,9 +57,9 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if(query!=null){
+                if (query != null) {
                     binding.recyclerView.scrollToPosition(0)
-                    viewModel.searchWallpaper(query,"16x9")
+                    viewModel.searchWallpaper(query, "", "")
                     searchView.clearFocus()
                 }
                 return true
@@ -66,6 +75,16 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClick(wallPaper: WallPaper) {
+//        val action =
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(wallPaper)
+        findNavController().navigate(action)
+    }
+
+    override fun onFavClick(wallPaper: WallPaper) {
+        Toast.makeText(context, "" + wallPaper.toString(), Toast.LENGTH_SHORT).show()
     }
 
 }

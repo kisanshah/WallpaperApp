@@ -1,16 +1,9 @@
 package com.example.wallpaperapp.views
 
 import android.os.Bundle
-import androidx.activity.viewModels
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.wallpaperapp.adapter.LoaderAdapter
-import com.example.wallpaperapp.adapter.WallpaperAdapter
 import com.example.wallpaperapp.databinding.ActivityMainBinding
-import com.example.wallpaperapp.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,5 +20,9 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun setBottomNavigationVisibility(visibility: Int) {
+        binding.bottomNav.visibility = visibility
     }
 }

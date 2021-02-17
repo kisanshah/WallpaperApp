@@ -5,13 +5,15 @@ import androidx.paging.PagingState
 import com.example.wallpaperapp.model.WallPaper
 import retrofit2.HttpException
 import java.io.IOException
+import java.io.StringBufferInputStream
 
 private const val START_INDEX = 1
 
 class WallpaperPagingSource(
     private val apiInterface: ApiInterface,
     private val query: String,
-    private val ratio: String
+    private val ratio: String,
+    private val sorting: String
 ) :
     PagingSource<Int, WallPaper>() {
 
@@ -20,7 +22,7 @@ class WallpaperPagingSource(
         val position = params.key ?: START_INDEX
 
         return try {
-            val response = apiInterface.getWallpaperByQuery(position, query, ratio)
+            val response = apiInterface.getWallpaperByQuery(position, query, ratio,sorting)
             val wallPaper = response.data
             LoadResult.Page(
                 data = wallPaper,

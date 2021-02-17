@@ -11,22 +11,27 @@ import com.example.wallpaperapp.repository.MainRepository
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    var mainRepository: MainRepository = MainRepository(application)
+    var mainRepository: MainRepository = MainRepository()
     private val currentQuery = MutableLiveData(DEFAULT_QUERY)
+    private val currentRatio = MutableLiveData(RATIO)
+    private val currentSorting = MutableLiveData(SORTING)
 
 
     val wallPapers = currentQuery.switchMap {
-        mainRepository.getWallpaperByQuery(it, RATIO).cachedIn(viewModelScope)
+        mainRepository.getWallpaperByQuery(it, currentRatio.value!!, currentSorting.value!!)
+            .cachedIn(viewModelScope)
     }
 
-    fun searchWallpaper(query: String, ratio: String) {
+    fun searchWallpaper(query: String, ratio: String, sorting: String) {
         currentQuery.value = query
-        RATIO = ratio
+        currentRatio.value = ratio
+        currentSorting.value = sorting
     }
 
     companion object {
         private const val DEFAULT_QUERY = ""
-        private var RATIO = ""
+        private const val RATIO = ""
+        private const val SORTING = "views"
     }
 
     fun getWallpapersByRatio(ratio: String): MutableLiveData<List<WallPaper>> {

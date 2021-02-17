@@ -1,6 +1,5 @@
 package com.example.wallpaperapp.repository
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainRepository(application: Application) {
+class MainRepository() {
     private val TAG = "DEBUG"
     var apiInterface: ApiInterface = ApiBuilder.buildService(ApiInterface::class.java)
     var liveDataWallpaper: MutableLiveData<List<WallPaper>> = MutableLiveData()
@@ -33,14 +32,18 @@ class MainRepository(application: Application) {
         return liveDataWallpaper
     }
 
-    fun getWallpaperByQuery(query: String,ratio: String): LiveData<PagingData<WallPaper>> {
+    fun getWallpaperByQuery(
+        query: String,
+        ratio: String,
+        sorting: String
+    ): LiveData<PagingData<WallPaper>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 24,
                 maxSize = 100,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { WallpaperPagingSource(apiInterface, query,ratio) }
+            pagingSourceFactory = { WallpaperPagingSource(apiInterface, query, ratio,sorting) }
         ).liveData
     }
 
