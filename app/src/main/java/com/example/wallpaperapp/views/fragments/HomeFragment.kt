@@ -1,6 +1,7 @@
 package com.example.wallpaperapp.views.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -12,12 +13,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.wallpaperapp.R
 import com.example.wallpaperapp.adapter.LoaderAdapter
 import com.example.wallpaperapp.adapter.WallpaperAdapter
+import com.example.wallpaperapp.database.OfflineWallpaper
 import com.example.wallpaperapp.databinding.HomeFragmentBinding
 import com.example.wallpaperapp.model.WallPaper
 import com.example.wallpaperapp.viewmodel.MainViewModel
 
 class HomeFragment : BaseFragment(), WallpaperAdapter.AdapterOnClickListener {
     private val viewModel by viewModels<MainViewModel>()
+
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -43,7 +46,11 @@ class HomeFragment : BaseFragment(), WallpaperAdapter.AdapterOnClickListener {
                 footer = LoaderAdapter { adapter.retry() }
             )
         }
-
+        val offlineWallpaper = OfflineWallpaper("uniquw", "qqq", "qqq")
+        viewModel.addWallpaper(offlineWallpaper)
+        viewModel.allWallpaper.observe(viewLifecycleOwner) {
+            Log.d("MY_LOG", it.toString())
+        }
         viewModel.wallPapers.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
@@ -78,13 +85,15 @@ class HomeFragment : BaseFragment(), WallpaperAdapter.AdapterOnClickListener {
     }
 
     override fun onItemClick(wallPaper: WallPaper) {
-//        val action =
         val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(wallPaper)
         findNavController().navigate(action)
     }
 
     override fun onFavClick(wallPaper: WallPaper) {
-        Toast.makeText(context, "" + wallPaper.toString(), Toast.LENGTH_SHORT).show()
+        val offlineWallpaper =
+            OfflineWallpaper(wallPaper.id, wallPaper.path, wallPaper.created_at)
+        viewModel.addWallpaper(offlineWallpaper)
+        Toast.makeText(context, "Wallpaper added to favourite", Toast.LENGTH_SHORT).show()
     }
 
 }

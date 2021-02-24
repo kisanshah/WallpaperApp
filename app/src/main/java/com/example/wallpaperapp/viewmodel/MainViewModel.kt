@@ -1,21 +1,40 @@
 package com.example.wallpaperapp.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.cachedIn
+import com.example.wallpaperapp.database.OfflineWallpaper
+import com.example.wallpaperapp.database.RoomDB
 import com.example.wallpaperapp.model.WallPaper
 import com.example.wallpaperapp.repository.MainRepository
+import com.example.wallpaperapp.repository.RoomRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    var mainRepository: MainRepository = MainRepository()
+    private var mainRepository: MainRepository
+    private var roomRepository: RoomRepository
+
+    val allWallpaper: LiveData<List<OfflineWallpaper>>
+
+
     private val currentQuery = MutableLiveData(DEFAULT_QUERY)
     private val currentRatio = MutableLiveData(RATIO)
     private val currentSorting = MutableLiveData(SORTING)
 
+    init {
+        val wallpaperDao = RoomDB.getInstance(application.applicationContext).WallpaperDao()
+        mainRepository = MainRepository()
+        roomRepository = RoomRepository(wallpaperDao)
+        allWallpaper = roomRepository.getAllWallpaper()
+    }
+
+    fun addWallpaper(offlineWallpaper: OfflineWallpaper) {
+        viewModelScope.launch(Dispatchers.IO) {
+            roomRepository.addWallpaper(offlineWallpaper)
+        }
+    }
 
     val wallPapers = currentQuery.switchMap {
         mainRepository.getWallpaperByQuery(it, currentRatio.value!!, currentSorting.value!!)

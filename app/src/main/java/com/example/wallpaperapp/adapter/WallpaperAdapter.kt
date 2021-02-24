@@ -57,13 +57,12 @@ class WallpaperAdapter(val listener: AdapterOnClickListener) :
         }
 
         fun bind(wallPaper: WallPaper) {
-
             binding.apply {
                 Glide.with(itemView)
                     .load(wallPaper.path)
                     .centerCrop()
                     .into(imageView)
-                container.setBackgroundColor(Color.parseColor(wallPaper.colors[0]))
+//                container.setBackgroundColor(Color.parseColor(wallPaper.colors[1]))
             }
         }
     }

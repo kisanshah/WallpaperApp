@@ -1,8 +1,11 @@
 package com.example.wallpaperapp.views
 
+import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.example.wallpaperapp.R
 import com.example.wallpaperapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +17,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        window.navigationBarColor = resources.getColor(R.color.black_primary)
+
+
+        setSupportActionBar(binding.toolbar)
+        val navHostFragment: NavHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
+
+        NavigationUI.setupWithNavController(binding.bottomNav, navHostFragment.navController)
 
     }
 
@@ -23,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setBottomNavigationVisibility(visibility: Int) {
+        binding.toolbar.visibility = visibility
         binding.bottomNav.visibility = visibility
     }
 }

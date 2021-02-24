@@ -6,24 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".views.MainActivity">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black_primary"
+        android:theme="@style/AppTheme.Toolbar"
+        app:title="@string/app_name"
+        app:titleTextColor="@color/white" />
+
     <fragment
         android:id="@+id/fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNav"
+        android:layout_below="@id/toolbar"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        app:itemIconSize="25sp"
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+        android:background="@color/black_primary"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
+        app:itemIconSize="25sp"
+        app:itemIconTint="@color/white"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:menu="@menu/nav_menu" />
 </RelativeLayout>

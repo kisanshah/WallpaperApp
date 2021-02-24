@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
+
     android:orientation="vertical">
 
     <ImageView
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/imageView"
-        android:background="@color/purple_700"
+        android:background="@color/black_primary"
         android:gravity="center">
 
         <TextView
@@ -34,13 +34,13 @@
 
         <ImageButton
             android:id="@+id/fav"
-            android:tint="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/todo"
-            android:src="@drawable/favourite" />
+            android:src="@drawable/favorite"
+            android:tint="@color/white" />
     </LinearLayout>
 </RelativeLayout>

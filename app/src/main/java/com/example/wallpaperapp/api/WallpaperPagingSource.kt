@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import com.example.wallpaperapp.model.WallPaper
 import retrofit2.HttpException
 import java.io.IOException
-import java.io.StringBufferInputStream
 
 private const val START_INDEX = 1
 

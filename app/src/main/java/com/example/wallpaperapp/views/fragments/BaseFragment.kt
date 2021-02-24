@@ -23,4 +23,6 @@ abstract class BaseFragment : Fragment() {
             mainActivity.setBottomNavigationVisibility(bottomNavigationViewVisibility)
         }
     }
+
+
 }

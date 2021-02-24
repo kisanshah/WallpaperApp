@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/detail_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:checkedChip="@+id/cropped"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/cropped"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cropped"
+            app:checkedIcon="@drawable/check"
+            app:checkedIconEnabled="true"
+            app:checkedIconTint="@color/black_primary"
+            app:chipIconEnabled="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/scrolling"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scrolling"
+            app:checkedIcon="@drawable/check"
+            app:checkedIconEnabled="true"
+            app:checkedIconTint="@color/black_primary"
+            app:chipIconEnabled="true" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/setHome"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:text="SET HOME SCREEN"
+        app:icon="@drawable/home" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/setLock"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SET LOCK SCREEN"
+        app:icon="@drawable/lock" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/setBoth"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:text="SET BOTH"
+        app:icon="@drawable/home" />
+
+</LinearLayout>
